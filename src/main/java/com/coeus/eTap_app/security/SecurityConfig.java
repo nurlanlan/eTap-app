@@ -20,15 +20,13 @@ public class SecurityConfig {
                 .requestMatchers(
                         "/auth/register",
                         "/auth/login",
-                        // Swagger UI üçün endpointlər
                         "/swagger-ui.html",
-                        "/swagger-ui/**",          // Bütün Swagger UI faylları
-                        "/v3/api-docs",            // OpenAPI spesifikasiyası
-                        "/v3/api-docs/**",         // OpenAPI alt endpointləri
-                        "/swagger-resources/**",   // Swagger resursları
-                        "/webjars/**",             // JavaScript/CSS faylları
-                        "/swagger-ui/index.html",  // Springdoc üçün əsas səhifə
-                        "/favicon.ico"             // Favicon (əgər lazımdırsa)
+                        "/swagger-ui/**",
+                        "/v3/api-docs",
+                        "/v3/api-docs/**",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/swagger-ui/index.html"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()
