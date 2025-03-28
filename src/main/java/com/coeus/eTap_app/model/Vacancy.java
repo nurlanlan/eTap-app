@@ -3,6 +3,8 @@ package com.coeus.eTap_app.model;
 import com.coeus.eTap_app.enums.*;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -19,8 +21,12 @@ public class Vacancy {
     private Education education;
     private EmploymentType employmentType;
     private WorkSchedule workSchedule;
-    private Company company;
     private int salary;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
 
     @Enumerated(EnumType.STRING)
     private SalaryRange salaryRange;
