@@ -30,17 +30,17 @@ public class UserService {
 //    }
 
     public User register(String userEmail, String userPassword) {
-        if (userRepository.findUserByEmail(userEmail) != null) {
+        if (userRepository.findUserByUserEmail(userEmail) != null) {
             throw new RuntimeException("Email already in use");
         }
-        String encodedPassword = passwordEncoder.encode(userPassword);
-
-        User user = new User(userEmail, encodedPassword);
+        User user = new User(userEmail, userPassword);
+        user.setUserEmail(userEmail);
+        user.setUserPassword(passwordEncoder.encode(userPassword));
         return userRepository.save(user);
     }
 
     public User login(String email, String password) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByUserEmail(email);
         if (user == null || !passwordEncoder.matches(password, user.getUserPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
