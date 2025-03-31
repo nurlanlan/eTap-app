@@ -1,10 +1,10 @@
 package com.coeus.eTap_app.repository;
 
-import com.coeus.eTap_app.model.User;
+import com.coeus.eTap_app.model.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findUserByUserEmail(String userEmail);
+public interface CompanyRepository extends JpaRepository<Company, Long> {
+    Company findByCompanyEmail(String email);
 }
