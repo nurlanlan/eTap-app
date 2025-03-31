@@ -1,18 +1,24 @@
 package com.coeus.eTap_app.model;
 
 import com.coeus.eTap_app.enums.*;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
+
 @RequiredArgsConstructor
+//@NoArgsConstructor
 @Data
+@Entity
+@Table(name = "vacancies")
 public class Vacancy {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private String vacancyName;
     private String vacancyDescription;
     private LocalDateTime vacancyAddedDate;

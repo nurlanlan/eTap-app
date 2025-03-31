@@ -1,16 +1,16 @@
 package com.coeus.eTap_app.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 
 @RequiredArgsConstructor
+//@NoArgsConstructor
 @Data
 @Entity
-@Table(name = "users_Etap")
+@Table(name = "users_eTap")
 public class User {
 
     @Id
