@@ -15,9 +15,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestParam String email, @RequestParam String password) {
+    public String register(@RequestParam String userEmail, @RequestParam String userPassword) {
         try {
-            userService.register(email, password);
+            userService.register(userEmail, userPassword);
             return "user registered successfully";
         } catch (Exception e) {
             return e.getMessage();
@@ -25,9 +25,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String password) {
+    public String login(@RequestParam String userEmail, @RequestParam String userPassword) {
         try {
-            userService.login(email, password);
+            userService.login(userEmail, userPassword);
             return "User logged in successfully";
         } catch (Exception e) {
             return e.getMessage();

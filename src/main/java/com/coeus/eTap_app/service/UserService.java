@@ -29,19 +29,19 @@ public class UserService {
 //        return userRepository.save(user);
 //    }
 
-    public User register(String email, String password) {
-        if (userRepository.findUserByEmail(email) != null) {
+    public User register(String userEmail, String userPassword) {
+        if (userRepository.findUserByEmail(userEmail) != null) {
             throw new RuntimeException("Email already in use");
         }
-        String encodedPassword = passwordEncoder.encode(password);
+        String encodedPassword = passwordEncoder.encode(userPassword);
 
-        User user = new User(email, encodedPassword);
+        User user = new User(userEmail, encodedPassword);
         return userRepository.save(user);
     }
 
     public User login(String email, String password) {
         User user = userRepository.findUserByEmail(email);
-        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+        if (user == null || !passwordEncoder.matches(password, user.getUserPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
         return user;

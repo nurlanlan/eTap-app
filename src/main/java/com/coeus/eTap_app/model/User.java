@@ -17,11 +17,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String email;
-    private String password;
+    private String userEmail;
+    private String userPassword;
 
     public User(String email, String password) {
-        this.email = email;
-        this.password = password;
+        this.userEmail = email;
+        this.userEmail = password;
     }
 }
