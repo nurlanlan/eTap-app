@@ -1,8 +1,14 @@
 package com.coeus.eTap_app.controller;
 
+import com.coeus.eTap_app.enums.*;
+import com.coeus.eTap_app.model.Vacancy;
 import com.coeus.eTap_app.service.CompanyService;
 import com.coeus.eTap_app.service.UserService;
+import com.coeus.eTap_app.service.VacancyService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/auth")
@@ -10,10 +16,12 @@ public class AuthController {
 
     private final UserService userService;
     private final CompanyService companyService;
+    private final VacancyService vacancyService;
 
-    public AuthController(UserService userService, CompanyService companyService) {
+    public AuthController(UserService userService, CompanyService companyService, VacancyService vacancyService) {
         this.userService = userService;
         this.companyService = companyService;
+        this.vacancyService = vacancyService;
     }
 
     @PostMapping("user/register")
@@ -57,6 +65,25 @@ public class AuthController {
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    @PostMapping("company/addVacancy")
+    public String addVacancy(String vacancyName,
+                             String vacancyDescription,
+                             Category category,
+                             City city,
+                             Education education,
+                             Experience experience,
+                             WorkSchedule workSchedule,
+                             EmploymentType employmentType,
+                             int salary) {
+        vacancyService.addVacancy(vacancyName, vacancyDescription, category, city, education, experience, workSchedule, employmentType, salary);
+        return "Vacancy added successfully";
+    }
+
+    @GetMapping("auth/vacancies")
+    public List<Vacancy> getVacancies() {
+        return vacancyService.showAllVacancies();
     }
 
 }
