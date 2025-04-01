@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Vacancy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String vacancyName;
     private String vacancyDescription;
@@ -27,6 +27,7 @@ public class Vacancy {
     private Education education;
     private EmploymentType employmentType;
     private WorkSchedule workSchedule;
+    private Experience experience;
     private int salary;
 
     @ManyToOne
