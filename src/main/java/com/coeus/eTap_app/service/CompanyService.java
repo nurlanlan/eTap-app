@@ -2,6 +2,7 @@ package com.coeus.eTap_app.service;
 
 import com.coeus.eTap_app.model.Company;
 import com.coeus.eTap_app.repository.CompanyRepository;
+import com.coeus.eTap_app.security.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +10,12 @@ import org.springframework.stereotype.Service;
 public class CompanyService {
     private final CompanyRepository companyRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public CompanyService(CompanyRepository companyRepository, PasswordEncoder passwordEncoder) {
+    public CompanyService(CompanyRepository companyRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.companyRepository = companyRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public Company registerCompany(String companyEmail, String companyName, String companyPassword) {
@@ -26,11 +29,11 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public Company loginCompany(String companyEmail, String companyPassword) {
+    public String loginCompany(String companyEmail, String companyPassword) {
         Company company = companyRepository.findByCompanyEmail(companyEmail);
         if (company == null || !passwordEncoder.matches(companyPassword, company.getCompanyPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
-        return company;
+        return jwtUtil.generateToken(companyEmail) ;
     }
 }

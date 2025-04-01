@@ -2,7 +2,7 @@ package com.coeus.eTap_app.service;
 
 import com.coeus.eTap_app.model.User;
 import com.coeus.eTap_app.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.coeus.eTap_app.security.JwtUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,11 +12,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     // Constructor-based injection
-    public UserService(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
 //    public User register(String email, String password) {
@@ -39,12 +41,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User login(String email, String password) {
+    public String login(String email, String password) {
         User user = userRepository.findUserByUserEmail(email);
         if (user == null || !passwordEncoder.matches(password, user.getUserPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
-        return user;
+        return jwtUtil.generateToken(email);
     }
 }
 
