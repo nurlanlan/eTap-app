@@ -2,7 +2,6 @@ package com.coeus.eTap_app.controller;
 
 import com.coeus.eTap_app.service.CompanyService;
 import com.coeus.eTap_app.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +16,7 @@ public class AuthController {
         this.companyService = companyService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("user/register")
     public String register(@RequestParam String userEmail, @RequestParam String userPassword) {
         try {
             userService.register(userEmail, userPassword);
@@ -27,11 +26,10 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/login")
+    @PostMapping("user/login")
     public String login(@RequestParam String userEmail, @RequestParam String userPassword) {
         try {
-            userService.login(userEmail, userPassword);
-            return "User logged in successfully";
+            return userService.login(userEmail, userPassword);
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -55,9 +53,8 @@ public class AuthController {
             @RequestParam String companyEmail,
             @RequestParam String companyPassword) {
         try {
-            companyService.loginCompany(companyEmail, companyPassword);
-            return "Company logged in successfully";
-        }catch (Exception e) {
+            return companyService.loginCompany(companyEmail, companyPassword);
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
