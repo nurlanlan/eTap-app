@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
@@ -20,20 +22,25 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findUserByUserEmail(email);
-        if(user != null) {
+        Optional<User> user = Optional.ofNullable(userRepository.findUserByUserEmail(email));
+        Optional<Company> company = companyRepository.findByCompanyEmail(email);
+
+        if (user.isPresent() && company.isPresent()) {
+            throw new IllegalStateException("Email exists in both user and company tables");
+        }
+
+        if (user.isPresent()) {
             return new CustomUserDetails(
-                    user.getUserEmail(),
-                    user.getUserPassword(),
+                    user.get().getUserEmail(),
+                    user.get().getUserPassword(),
                     "USER"
             );
         }
 
-        Company company = companyRepository.findByCompanyEmail(email);
-        if(company != null) {
+        if (company.isPresent()) {
             return new CustomUserDetails(
-                    company.getCompanyEmail(),
-                    company.getCompanyPassword(),
+                    company.get().getCompanyEmail(),
+                    company.get().getCompanyPassword(),
                     "COMPANY"
             );
         }
