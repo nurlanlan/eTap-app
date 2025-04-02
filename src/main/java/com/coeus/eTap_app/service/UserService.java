@@ -46,7 +46,7 @@ public class UserService {
         if (user == null || !passwordEncoder.matches(password, user.getUserPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
-        return jwtUtil.generateToken(email);
+        return jwtUtil.generateToken(email,"USER");
     }
 }
 
