@@ -1,8 +1,7 @@
-package com.coeus.eTap_app.model;
+package com.coeus.eTap_app.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 

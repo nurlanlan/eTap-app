@@ -1,6 +1,6 @@
 package com.coeus.eTap_app.repository;
 
-import com.coeus.eTap_app.model.Vacancy;
+import com.coeus.eTap_app.domain.model.Vacancy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

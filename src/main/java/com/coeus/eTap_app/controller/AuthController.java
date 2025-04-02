@@ -1,13 +1,14 @@
 package com.coeus.eTap_app.controller;
 
+import com.coeus.eTap_app.domain.dto.VacancyDto;
 import com.coeus.eTap_app.enums.*;
-import com.coeus.eTap_app.model.Vacancy;
+import com.coeus.eTap_app.domain.model.Vacancy;
 import com.coeus.eTap_app.service.CompanyService;
 import com.coeus.eTap_app.service.UserService;
 import com.coeus.eTap_app.service.VacancyService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -68,7 +69,7 @@ public class AuthController {
         }
     }
 
-//    @PreAuthorize("hasRole('COMPANY')")
+    //    @PreAuthorize("hasRole('COMPANY')")
     @PostMapping("company/addVacancy")
     public String addVacancy(String vacancyName,
                              String vacancyDescription,
@@ -78,10 +79,23 @@ public class AuthController {
                              Experience experience,
                              WorkSchedule workSchedule,
                              EmploymentType employmentType,
+                             LocalDateTime vacancyAddedDate,
                              int salary) {
-        vacancyService.addVacancy(vacancyName, vacancyDescription, category, city, education, experience, workSchedule, employmentType, salary);
+        vacancyService.addVacancy(
+                vacancyName,
+                vacancyDescription,
+                category, city,
+                education,
+                experience,
+                workSchedule,
+                employmentType,
+                vacancyAddedDate,
+                salary);
         return "Vacancy added successfully";
     }
+//public Vacancy addVacancy(@RequestBody VacancyDto vacancyDto) {
+//    return vacancyService.addVacancy(vacancyDto);
+//}
 
     @GetMapping("auth/vacancies")
     public List<Vacancy> getVacancies() {

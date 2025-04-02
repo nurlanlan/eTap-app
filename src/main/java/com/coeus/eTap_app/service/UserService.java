@@ -1,6 +1,6 @@
 package com.coeus.eTap_app.service;
 
-import com.coeus.eTap_app.model.User;
+import com.coeus.eTap_app.domain.model.User;
 import com.coeus.eTap_app.repository.UserRepository;
 import com.coeus.eTap_app.security.JwtUtil;
 import org.springframework.context.annotation.Lazy;

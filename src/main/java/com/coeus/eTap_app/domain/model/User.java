@@ -1,4 +1,4 @@
-package com.coeus.eTap_app.model;
+package com.coeus.eTap_app.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,6 +23,6 @@ public class User {
 
     public User(String email, String password) {
         this.userEmail = email;
-        this.userEmail = password;
+        this.userPassword = password;
     }
 }

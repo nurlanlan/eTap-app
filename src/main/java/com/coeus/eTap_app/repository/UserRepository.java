@@ -1,6 +1,6 @@
 package com.coeus.eTap_app.repository;
 
-import com.coeus.eTap_app.model.User;
+import com.coeus.eTap_app.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

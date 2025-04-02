@@ -1,7 +1,7 @@
 package com.coeus.eTap_app.service;
 
-import com.coeus.eTap_app.model.Company;
-import com.coeus.eTap_app.model.User;
+import com.coeus.eTap_app.domain.model.Company;
+import com.coeus.eTap_app.domain.model.User;
 import com.coeus.eTap_app.repository.CompanyRepository;
 import com.coeus.eTap_app.repository.UserRepository;
 import com.coeus.eTap_app.security.CustomUserDetails;

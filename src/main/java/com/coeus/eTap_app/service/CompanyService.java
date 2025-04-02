@@ -1,6 +1,6 @@
 package com.coeus.eTap_app.service;
 
-import com.coeus.eTap_app.model.Company;
+import com.coeus.eTap_app.domain.model.Company;
 import com.coeus.eTap_app.repository.CompanyRepository;
 import com.coeus.eTap_app.security.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,9 +18,9 @@ public class CompanyService {
         this.jwtUtil = jwtUtil;
     }
 
-    public Company registerCompany(String companyEmail, String companyName, String companyPassword) {
-        if (companyRepository.findByCompanyEmail(companyEmail) != null) {
-            throw new RuntimeException("Email already in user");
+    public Company registerCompany(String companyEmail,  String companyPassword,String companyName) {
+        if (companyRepository.findByCompanyEmail(companyEmail).isPresent()) {
+            throw new RuntimeException("Email already in use");
         }
         Company company = new Company();
         company.setCompanyEmail(companyEmail);
