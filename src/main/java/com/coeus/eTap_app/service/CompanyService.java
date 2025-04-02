@@ -30,10 +30,13 @@ public class CompanyService {
     }
 
     public String loginCompany(String companyEmail, String companyPassword) {
-        Company company = companyRepository.findByCompanyEmail(companyEmail);
-        if (company == null || !passwordEncoder.matches(companyPassword, company.getCompanyPassword())) {
+        Company company = companyRepository.findByCompanyEmail(companyEmail)
+                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+
+        if (!passwordEncoder.matches(companyPassword, company.getCompanyPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
-        return jwtUtil.generateToken(companyEmail) ;
+
+        return jwtUtil.generateToken(companyEmail, "COMPANY");
     }
 }
