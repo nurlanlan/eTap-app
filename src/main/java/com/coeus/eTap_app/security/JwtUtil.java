@@ -5,12 +5,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-
 import jakarta.annotation.PostConstruct;
-
 import java.util.Date;
 import java.util.function.Function;
 
@@ -19,7 +19,6 @@ public class JwtUtil {
 
     @Value("${jwt.secret}")
     private String secretKeyString;
-
     private SecretKey secretKey;
 
     @PostConstruct
@@ -30,22 +29,47 @@ public class JwtUtil {
         this.secretKey = Keys.hmacShaKeyFor(secretKeyString.getBytes());
     }
 
-    public String generateToken(String email) {
+    public String generateToken(String email, String role) {
         return Jwts.builder()
                 .setSubject(email)
+                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public boolean validateToken(String token, String userEmail) {
-        final String emailFromToken = extractEmail(token);
-        return (emailFromToken.equals(userEmail) && !isTokenExpired(token));
+    public boolean validateToken(String token, UserDetails userDetails) {
+        try {
+            final String emailFromToken = extractEmail(token);
+            final String roleFromToken = extractRole(token);
+
+            // Check if token is expired first
+            if (isTokenExpired(token)) {
+                return false;
+            }
+
+            // Validate email matches
+            if (!emailFromToken.equals(userDetails.getUsername())) {
+                return false;
+            }
+
+            // Validate role matches
+            return userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .anyMatch(authority -> authority.equals("ROLE_" + roleFromToken));
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     public Date extractExpiration(String token) {
