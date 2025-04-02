@@ -38,7 +38,7 @@ public class SecurityConfig {
                         "/webjars/**",
                         "/swagger-ui/index.html"
                 ).permitAll()
-                .requestMatchers("/company/**").hasRole("COMPANY")
+                .requestMatchers("/auth/company/**").hasRole("COMPANY")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
