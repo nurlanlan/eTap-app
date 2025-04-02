@@ -5,6 +5,7 @@ import com.coeus.eTap_app.model.Vacancy;
 import com.coeus.eTap_app.service.CompanyService;
 import com.coeus.eTap_app.service.UserService;
 import com.coeus.eTap_app.service.VacancyService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,6 +68,7 @@ public class AuthController {
         }
     }
 
+//    @PreAuthorize("hasRole('COMPANY')")
     @PostMapping("company/addVacancy")
     public String addVacancy(String vacancyName,
                              String vacancyDescription,
