@@ -4,6 +4,8 @@ import com.coeus.eTap_app.enums.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -34,13 +36,16 @@ public class VacancyDto {
     @NotNull(message = "Employment type is required")
     private EmploymentType employmentType;
 
+    @Transient
+    private MultipartFile photoFile;
+
     @NotNull(message = "Vacancy schedule is required")
     private WorkSchedule workSchedule;
 
     @NotNull(message = "Experience is required")
     private Experience experience;
 
-    @Min(value = 300, message = "Salary must be at least 300")
-    @Max(value = 100000, message = "Salary cannot be more than 100000")
     private int salary;
+
+
 }

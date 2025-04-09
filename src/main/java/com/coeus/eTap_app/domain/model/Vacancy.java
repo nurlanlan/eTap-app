@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +27,7 @@ public class Vacancy {
     private LocalDateTime vacancyAddedDate;
     private Category category;
     private City city;
+    private String vacancyImage;
     private Education education;
     private EmploymentType employmentType;
     private WorkSchedule workSchedule;
