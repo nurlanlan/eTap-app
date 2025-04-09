@@ -6,6 +6,8 @@ import com.coeus.eTap_app.domain.model.Vacancy;
 import com.coeus.eTap_app.service.CompanyService;
 import com.coeus.eTap_app.service.UserService;
 import com.coeus.eTap_app.service.VacancyService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -69,33 +71,35 @@ public class AuthController {
         }
     }
 
-    //    @PreAuthorize("hasRole('COMPANY')")
-    @PostMapping("company/addVacancy")
-    public String addVacancy(String vacancyName,
-                             String vacancyDescription,
-                             Category category,
-                             City city,
-                             Education education,
-                             Experience experience,
-                             WorkSchedule workSchedule,
-                             EmploymentType employmentType,
-                             LocalDateTime vacancyAddedDate,
-                             int salary) {
-        vacancyService.addVacancy(
-                vacancyName,
-                vacancyDescription,
-                category, city,
-                education,
-                experience,
-                workSchedule,
-                employmentType,
-                vacancyAddedDate,
-                salary);
-        return "Vacancy added successfully";
+//    //    @PreAuthorize("hasRole('COMPANY')")
+//    @PostMapping("company/addVacancy")
+//    public String addVacancy(String vacancyName,
+//                             String vacancyDescription,
+//                             Category category,
+//                             City city,
+//                             Education education,
+//                             Experience experience,
+//                             WorkSchedule workSchedule,
+//                             EmploymentType employmentType,
+//                             LocalDateTime vacancyAddedDate,
+//                             int salary) {
+//        vacancyService.addVacancy(
+//                vacancyName,
+//                vacancyDescription,
+//                category, city,
+//                education,
+//                experience,
+//                workSchedule,
+//                employmentType,
+//                vacancyAddedDate,
+//                salary);
+//        return "Vacancy added successfully";
+//    }
+    @PostMapping("/company/addVacancy")
+    public ResponseEntity<?> createVacancy(@Valid @RequestBody VacancyDto vacancyDto) {
+        Vacancy vacancy = vacancyService.addVacancy(vacancyDto);
+        return ResponseEntity.ok(vacancy);
     }
-//public Vacancy addVacancy(@RequestBody VacancyDto vacancyDto) {
-//    return vacancyService.addVacancy(vacancyDto);
-//}
 
     @GetMapping("auth/vacancies")
     public List<Vacancy> getVacancies() {
