@@ -6,9 +6,13 @@ import com.coeus.eTap_app.domain.model.Vacancy;
 import com.coeus.eTap_app.service.CompanyService;
 import com.coeus.eTap_app.service.UserService;
 import com.coeus.eTap_app.service.VacancyService;
+import io.jsonwebtoken.io.IOException;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -95,11 +99,22 @@ public class AuthController {
 //                salary);
 //        return "Vacancy added successfully";
 //    }
-    @PostMapping("/company/addVacancy")
-    public ResponseEntity<?> createVacancy(@Valid @RequestBody VacancyDto vacancyDto) {
+@PostMapping(value = "/company/addVacancy", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+public ResponseEntity<?> createVacancy(
+        @RequestPart("vacancyDto") @Valid VacancyDto vacancyDto,
+        @RequestPart(value = "photoFile", required = false) MultipartFile photoFile) {
+
+    try {
+        // Faylı DTO-ya əlavə edirik
+        vacancyDto.setPhotoFile(photoFile);
+
         Vacancy vacancy = vacancyService.addVacancy(vacancyDto);
         return ResponseEntity.ok(vacancy);
+    } catch (IOException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("File upload failed: " + e.getMessage());
     }
+}
 
     @GetMapping("auth/vacancies")
     public List<Vacancy> getVacancies() {
