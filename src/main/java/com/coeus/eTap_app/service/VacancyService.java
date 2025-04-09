@@ -8,10 +8,12 @@ import com.coeus.eTap_app.domain.model.Vacancy;
 import com.coeus.eTap_app.repository.CompanyRepository;
 import com.coeus.eTap_app.repository.VacancyRepository;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class VacancyService {
@@ -19,45 +21,18 @@ public class VacancyService {
     private final SecurityService securityService;
     private final CompanyRepository companyRepository;
     private final VacancyMapper vacancyMapper;
+    private final S3Service s3Service;
 
 
-    public VacancyService(VacancyRepository vacancyRepository, SecurityService securityService, CompanyRepository companyRepository, VacancyMapper vacancyMapper) {
+    public VacancyService(VacancyRepository vacancyRepository, SecurityService securityService, CompanyRepository companyRepository, VacancyMapper vacancyMapper, S3Service s3Service) {
         this.vacancyRepository = vacancyRepository;
         this.securityService = securityService;
         this.companyRepository = companyRepository;
         this.vacancyMapper = vacancyMapper;
+        this.s3Service = s3Service;
     }
 
-//    public Vacancy addVacancy(String vacancyName,
-//                              String vacancyDescription,
-//                              Category category,
-//                              City city,
-//                              Education education,
-//                              Experience experience,
-//                              WorkSchedule workSchedule,
-//                              EmploymentType employmentType,
-//                              LocalDateTime vacancyAddedDate,
-//                              int salary) {
-//
-////        String currentCompanyEmail = securityService.getCurrentUserEmail();
-////        Company company = companyRepository.findByCompanyEmail(currentCompanyEmail)
-////                .orElseThrow(() -> new RuntimeException("Company not found"));
-//
-//        Vacancy vacancy = new Vacancy();
-//        vacancy.setVacancyName(vacancyName);
-//        vacancy.setVacancyDescription(vacancyDescription);
-//        vacancy.setCategory(category);
-//        vacancy.setCity(city);
-//        vacancy.setEducation(education);
-//        vacancy.setWorkSchedule(workSchedule);
-//        vacancy.setEmploymentType(employmentType);
-//        vacancy.setExperience(experience);
-//        vacancy.setSalary(salary);
-//        vacancy.setVacancyAddedDate(vacancyAddedDate);
-////        vacancy.setCompany(company); // Əlaqəni qururuq
-//
-//        return vacancyRepository.save(vacancy);
-//    }
+
     public Vacancy addVacancy(VacancyDto vacancyDto) {
 //        String currentCompanyEmail = securityService.getCurrentUserEmail();
 //        Company company = companyRepository.findByCompanyEmail(currentCompanyEmail)
@@ -65,6 +40,16 @@ public class VacancyService {
 
         Vacancy vacancy = vacancyMapper.toEntity(vacancyDto);
 //        vacancy.setCompany(company);
+        // Foto yükləmə
+        if (vacancyDto.getPhotoFile() != null && !vacancyDto.getPhotoFile().isEmpty()) {
+            String photoUrl = null;
+            try {
+                photoUrl = s3Service.uploadFile(vacancyDto.getPhotoFile());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            vacancy.setVacancyImage(photoUrl);
+        }
         return vacancyRepository.save(vacancy);
     }
 

@@ -8,5 +8,10 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface VacancyMapper {
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "photoUrl", ignore = true) // S3 URL-i manual olaraq set edəcəyik
     Vacancy toEntity(VacancyDto vacancyDto);
+
+    // Əgər lazımdırsa, DTO-ya çevirmək üçün
+    @Mapping(target = "photoFile", ignore = true) // MultipartFile DTO-da olacaq, entity-də yox
+    VacancyDto toDto(Vacancy vacancy);
 }
