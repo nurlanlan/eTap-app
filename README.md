@@ -1,49 +1,119 @@
-# eTap Job Portal
+# 💼 eTap Job Portal
 
-A comprehensive job posting platform where companies can post vacancies and users can browse them.
+---
 
-## Features
+## 📖 Overview
 
-### Authentication
-- User registration/login (JWT token)
-- Company registration/login (JWT token)
-- Role-based authorization (USER/COMPANY)
+A **comprehensive job posting platform** where:
 
-### Vacancy Management
-- Create job vacancies with multiple fields
-- Upload vacancy images (stored in AWS S3)
-- View all vacancies
-- Filter vacancies by various criteria (category, city, etc.)
+- 🏢 Companies can post vacancies  
+- 🙋‍♂️ Users can browse and apply for jobs
 
-### User Management
-- Secure password storage (BCrypt)
-- Email uniqueness validation
+Designed to support **secure user management**, **role-based access**, and **media upload** via cloud.
 
-## Technologies Used
+---
 
-### Backend
-- Java 17
-- Spring Boot 3.x
-- Spring Security
-- JWT for authentication
-- AWS SDK for S3 file storage
-- MapStruct for object mapping
-- Lombok for boilerplate reduction
-- Hibernate/JPA
+## 🌟 Features
 
-### Database
-- PostgreSQL
-## API Endpoints
+### 🔐 Authentication
+- User registration & login with **JWT token**
+- Company registration & login with **JWT token**
+- **Role-based authorization** (`USER`, `COMPANY`)
 
-### Auth Controller
-- `POST /auth/user/register` - Register new user
-- `POST /auth/user/login` - User login
-- `POST /auth/company/register` - Register new company
-- `POST /auth/company/login` - Company login
+### 📄 Vacancy Management
+- Create job vacancies with detailed fields  
+- Upload vacancy images (**stored in AWS S3**)  
+- View all vacancies  
+- Filter vacancies by:
+  - Category
+  - City
+  - Salary range *(planned)*
+
+### 👤 User Management
+- Secure password storage (**BCrypt**)  
+- Email uniqueness validation  
+- Token-based session handling  
+
+---
+
+## 🧰 Technologies Used
+
+### 🖥️ Backend
+- **Java 17**
+- **Spring Boot 3.x**
+- **Spring Security**
+- **JWT** for stateless authentication  
+- **MapStruct** – DTO ↔ Entity mapper  
+- **Lombok** – Boilerplate reduction  
+- **Hibernate / JPA**
+
+### ☁️ Cloud & Storage
+- **AWS SDK** – Image upload to Amazon S3  
+
+### 🗃️ Database
+- **PostgreSQL** – Relational DB  
+
+---
+
+## 🔌 API Endpoints
+
+### 🛂 Auth Controller
+
+
+
+### API Endpoints
+POST /auth/user/register       # Register new user
+POST /auth/user/login          # User login
+POST /auth/company/register    # Register new company
+POST /auth/company/login       # Company login
 
 ### Vacancy Controller
 - `POST /company/addVacancy` - Add new vacancy (with image upload)
 - `GET /auth/vacancies` - Get all vacancies
+⚙️ How It Works
+User or company registers/logs in with email and password
+
+System issues JWT token and verifies role
+
+Depending on role:
+
+Users can view & filter jobs
+
+Companies can post and manage vacancies
+
+🧠 Business Logic Highlights
+🚀 The engine behind the platform includes:
+
+Secure JWT handling with token validation filters
+
+Role-based method access (e.g. @PreAuthorize)
+
+AWS S3 integration for file uploads
+
+MapStruct for clean and fast object conversions
+
+DTO pattern for clean request/response models
+
+Validation layer for input safety
+
+🚀 Future Improvements
+Apply to vacancies (user-side)
+
+Save/bookmark jobs
+
+Advanced filtering (salary, job type)
+
+Company profiles
+
+Admin dashboard
+
+Daily email notifications
+
+🤝 Contributions
+Suggestions and contributions are welcome!
+Feel free to fork, open pull requests, or create issues.
+
+Made with ☕ and 💻 by Nurlan
 
 ## Front-end screenshots
 ![Screenshot 2025-04-09 184904](https://github.com/user-attachments/assets/2fcf020a-3940-433a-bd4b-1b9f04f4ea8a)
@@ -61,4 +131,4 @@ A comprehensive job posting platform where companies can post vacancies and user
 ![Screenshot 2025-04-09 184813](https://github.com/user-attachments/assets/2397d3ca-8f28-4510-8986-b12df1cfcd8f)
 ![Screenshot 2025-04-09 184806](https://github.com/user-attachments/assets/439e8163-ee0a-4ad3-8156-ba3196b06ea6)
 
-
+```http
