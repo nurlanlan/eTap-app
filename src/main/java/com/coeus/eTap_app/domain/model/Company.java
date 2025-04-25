@@ -1,5 +1,6 @@
 package com.coeus.eTap_app.domain.model;
 
+import com.coeus.eTap_app.enums.City;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,13 @@ public class Company {
 
     @Column(unique = true, nullable = false)
     private String companyEmail;
+    //todo
+    //email for users to send CV
+    private String contactEmail;
     private String companyName;
     private String companyPassword;
     private String companyLogo;
+    private City city;
     private String companyDescription;
     @OneToMany(mappedBy = "company")
     private List<Vacancy> vacancies;

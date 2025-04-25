@@ -1,5 +1,6 @@
 package com.coeus.eTap_app.controller;
 
+import com.coeus.eTap_app.domain.dto.CompanyDto;
 import com.coeus.eTap_app.domain.dto.VacancyDto;
 import com.coeus.eTap_app.enums.*;
 import com.coeus.eTap_app.domain.model.Vacancy;
@@ -53,13 +54,23 @@ public class AuthController {
 
     @PostMapping("/company/register")
     public String registerCompany(
-            @RequestParam String companyEmail,
-            @RequestParam String companyPassword,
-            @RequestParam String companyName) {
+            @RequestParam CompanyDto companyDto
+
+            ) {
         try {
-            companyService.registerCompany(companyEmail, companyPassword, companyName);
+            companyService.registerCompany(companyDto);
             return "Company registered successfully";
         } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @PatchMapping("/company/update")
+    public String updateCompany(@RequestParam CompanyDto companyDto) {
+        try {
+            companyService.updateCompany(companyDto);
+            return "Company updated successfully";
+        }catch (Exception e) {
             return e.getMessage();
         }
     }
@@ -75,7 +86,7 @@ public class AuthController {
         }
     }
 
-//    //    @PreAuthorize("hasRole('COMPANY')")
+    //    //    @PreAuthorize("hasRole('COMPANY')")
 //    @PostMapping("company/addVacancy")
 //    public String addVacancy(String vacancyName,
 //                             String vacancyDescription,
@@ -99,26 +110,33 @@ public class AuthController {
 //                salary);
 //        return "Vacancy added successfully";
 //    }
-@PostMapping(value = "/company/addVacancy", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-public ResponseEntity<?> createVacancy(
-        @RequestPart("vacancyDto") @Valid VacancyDto vacancyDto,
-        @RequestPart(value = "photoFile", required = false) MultipartFile photoFile) {
+//    @PostMapping(value = "/company/addVacancy", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<?> createVacancy(
+//            @RequestPart("vacancyDto") @Valid VacancyDto vacancyDto,
+//            @RequestPart(value = "photoFile", required = false) MultipartFile photoFile) {
+//
+//        try {
+//            // Faylı DTO-ya əlavə edirik
+//            vacancyDto.setPhotoFile(photoFile);
+//
+//            Vacancy vacancy = vacancyService.addVacancy(vacancyDto);
+//            return ResponseEntity.ok(vacancy);
+//        } catch (IOException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("File upload failed: " + e.getMessage());
+//        }
+//    }
 
-    try {
-        // Faylı DTO-ya əlavə edirik
-        vacancyDto.setPhotoFile(photoFile);
 
-        Vacancy vacancy = vacancyService.addVacancy(vacancyDto);
-        return ResponseEntity.ok(vacancy);
-    } catch (IOException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("File upload failed: " + e.getMessage());
+    @PostMapping("company/addVacancy")
+    public ResponseEntity<Vacancy> createVacancy(@RequestBody VacancyDto vacancyDto) {
+        Vacancy savedVacancy = vacancyService.addVacancy(vacancyDto);
+        return ResponseEntity.ok(savedVacancy);
+
     }
-}
 
     @GetMapping("auth/vacancies")
     public List<Vacancy> getVacancies() {
         return vacancyService.showAllVacancies();
     }
-
 }
