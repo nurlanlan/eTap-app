@@ -40,18 +40,20 @@ public class VacancyService {
 
         Vacancy vacancy = vacancyMapper.toEntity(vacancyDto);
 //        vacancy.setCompany(company);
-        // Foto yükləmə
-        if (vacancyDto.getPhotoFile() != null && !vacancyDto.getPhotoFile().isEmpty()) {
-            String photoUrl = null;
-            try {
-                photoUrl = s3Service.uploadFile(vacancyDto.getPhotoFile());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            vacancy.setVacancyImage(photoUrl);
-        }
+//        // Foto yükləmə
+//        if (vacancyDto.getPhotoFile() != null && !vacancyDto.getPhotoFile().isEmpty()) {
+//            String photoUrl = null;
+//            try {
+//                photoUrl = s3Service.uploadFile(vacancyDto.getPhotoFile());
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            vacancy.setVacancyImage(photoUrl);
+//        }
         return vacancyRepository.save(vacancy);
     }
+
+
 
 
     public List<Vacancy> showAllVacancies() {
