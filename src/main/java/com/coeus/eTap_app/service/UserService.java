@@ -14,22 +14,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    // Constructor-based injection
     public UserService(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
-
-//    public User register(String email, String password) {
-//        if (userRepository.findUserByEmail(email) != null) {
-//            throw new RuntimeException("Email already in use");
-//        }
-//
-//
-//        User user = new User(email, password);
-//        return userRepository.save(user);
-//    }
 
     public User register(String userEmail, String userPassword) {
         if (userRepository.findUserByUserEmail(userEmail) != null) {
@@ -46,7 +35,7 @@ public class UserService {
         if (user == null || !passwordEncoder.matches(password, user.getUserPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
-        return jwtUtil.generateToken(email,"USER");
+        return jwtUtil.generateToken(email, "USER");
     }
 }
 

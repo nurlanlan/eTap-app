@@ -36,8 +36,8 @@ public class VacancyDto {
     @NotNull(message = "Employment type is required")
     private EmploymentType employmentType;
 
-    @Transient
-    private MultipartFile photoFile;
+//    @Transient
+//    private MultipartFile photoFile;
 
     @NotNull(message = "Vacancy schedule is required")
     private WorkSchedule workSchedule;
